@@ -8,13 +8,7 @@ import (
 )
 
 func main() {
-		cliCommands := map[string]cliCommand{
-			"exit": {
-					name:        "exit",
-					description: "Exit the Pokedex",
-					callback:    commandExit,
-			},
-	}
+	cliCommands := getCommands()
 	scanner := bufio.NewScanner(os.Stdin)
 	for ;; {
 		pokedexPrompt := "Pokedex > "
@@ -23,8 +17,16 @@ func main() {
 			inputSlice := cleanInput(input)
 			command := strings.Join(inputSlice[:1], "")
 			input = ""
-			if command == "exit" {
-				cliCommands[command].callback()
+			switch command {
+				case "exit": {
+					cliCommands[command].callback()
+				}
+				case "help": {
+					cliCommands[command].callback()
+				}
+				default: {
+					fmt.Println(pokedexPrompt + "Unknown command")
+				}
 			}
 		}
 	}
